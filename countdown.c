@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include "countdown.h"
 
 void enterLetters(char *letters) {
 	char lettertype;
@@ -45,14 +46,6 @@ void allLowerCase(char *string) {
 	}
 }
 
-
-void countLetters(char *letters, int *letterCount) {
-	for (int i = 0; i < (int)strlen(letters); i++) {
-		int currentLetter = letters[i] - 97; // 97 is lowercase 'a' in ASCII
-		++letterCount[currentLetter];
-	}
-}
-
 int validUserWord(char *word, char *letters) {
 	FILE *wordlist = fopen("webster.txt", "r");
 	/* Must be opened and closed within the function so it starts searching from the start for each new word given */
@@ -79,22 +72,11 @@ int validUserWord(char *word, char *letters) {
 	return 0;
 }
 
-int wordTest(char *word, char *userWord, char *letterChoice) {
-	if (strlen(word) <= strlen(userWord)) {
-		return 0;
+void countLetters(char *letters, int *letterCount) {
+	for (int i = 0; i < (int)strlen(letters); i++) {
+		int currentLetter = letters[i] - 97; // 97 is lowercase 'a' in ASCII
+		++letterCount[currentLetter];
 	}
-
-	int wordLetterCount[26] = { 0 };
-	int letChoiceCount[26] = { 0 };
-	countLetters(word, wordLetterCount);
-	countLetters(letterChoice, letChoiceCount);
-
-	for (int i = 0; i < 26; i++) {
-		if (wordLetterCount[i] > letChoiceCount[i]) {
-			return 0;
-		}
-	}
-	return 1;
 }
 
 void dictionarySearch(char *letters, char *yourWord, char *compuWord) {
@@ -116,6 +98,23 @@ void dictionarySearch(char *letters, char *yourWord, char *compuWord) {
 	fclose(wordlist);
 }
 
+int wordTest(char *word, char *userWord, char *letterChoice) {
+	if (strlen(word) <= strlen(userWord)) {
+		return 0;
+	}
+
+	int wordLetterCount[26] = { 0 };
+	int letChoiceCount[26] = { 0 };
+	countLetters(word, wordLetterCount);
+	countLetters(letterChoice, letChoiceCount);
+
+	for (int i = 0; i < 26; i++) {
+		if (wordLetterCount[i] > letChoiceCount[i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
 void printCompuWord(char *compuWord) {
 	if (strcmp(compuWord, "") == 0) { // Fixed from "" == compuWord for GitHub upload.
 		printf("\nCongratulations! The computer was unable to defeat you!\n\n");
