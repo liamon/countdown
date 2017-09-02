@@ -10,10 +10,10 @@ Note that the webster.txt file, which provides the list of valid words, must be 
 ## Command-line compilation
 
 ### Visual C
-  cl main.c countdown.c /link /out:countdown.exe
+    cl main.c countdown.c /link /out:countdown.exe
 
 ### GCC
-  gcc main.c countdown.c -o countdown
+    gcc main.c countdown.c -o countdown
 
 ### Clang
-  clang main.c countdown.c -o countdown
+    clang main.c countdown.c -o countdown
